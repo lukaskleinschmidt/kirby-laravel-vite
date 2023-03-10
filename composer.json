@@ -1,0 +1,21 @@
+{
+	"name": "lukaskleinschmidt/kirby-laravel-vite",
+	"description": "Kirby Laravel Vite",
+	"license": "MIT",
+	"type": "kirby-plugin",
+	"version": "1.0.0",
+	"authors": [
+		{
+			"name": "Lukas Kleinschmidt",
+			"email": "contact@kleinschmidt.mozmail.com"
+		}
+	],
+	"require": {
+		"getkirby/composer-installer": "^1.2"
+	},
+	"config": {
+		"allow-plugins": {
+			"getkirby/composer-installer": true
+		}
+	}
+}
