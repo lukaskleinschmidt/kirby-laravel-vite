@@ -451,7 +451,6 @@ class Vite implements Stringable
      */
     public function isRunningHot(): bool
     {
-        var_dump($this->hotFile());
         return is_file($this->hotFile());
     }
 
