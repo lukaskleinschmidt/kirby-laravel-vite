@@ -112,7 +112,7 @@ import.meta.glob([
 These assets will now be processed by Vite when running `npm run build`. You can then reference these assets in your templates using the `vite()->asset()` method, which will return the versioned URL for a given asset:
 
 ```php
-<img src="{{ vite()->asset('assets/images/logo.png') }}">
+<img src="<?= vite()->asset('assets/images/logo.png') ?>">
 ```
 
 ## Arbitrary Attributes
