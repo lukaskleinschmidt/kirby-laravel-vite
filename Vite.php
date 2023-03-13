@@ -87,7 +87,7 @@ class Vite implements Stringable
     public function __invoke(array|string $entries, string $buildDirectory = null): ?string
     {
         $entries = (array) $entries;
-        $dynamic = [];
+        $exists  = [];
 
         foreach ($entries as $key => $value) {
             $query = Str::template($value, [
@@ -103,7 +103,7 @@ class Vite implements Stringable
             if ($optional || $query !== $value) {
                 if (file_exists($this->app->root('base') . '/' . $query)) {
                     $entries[$key] = $query;
-                    $dynamic[]     = $query;
+                    $exists[]      = $query;
                 } else {
                     unset($entries[$key]);
                 }
@@ -127,7 +127,7 @@ class Vite implements Stringable
             try {
                 $chunk = $this->chunk($manifest, $key);
             } catch (Exception $e) {
-                if (! in_array($key, $dynamic)) throw $e;
+                if (! in_array($key, $exists)) throw $e;
             }
 
             if (! isset($chunk)) {
@@ -451,6 +451,7 @@ class Vite implements Stringable
      */
     public function isRunningHot(): bool
     {
+        var_dump($this->hotFile());
         return is_file($this->hotFile());
     }
 

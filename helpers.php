@@ -3,10 +3,10 @@
 use LukasKleinschmidt\Vite;
 
 if (! function_exists('vite')) {
-    function vite(array|string $entries = null)
+    function vite(array|string $entries = null): Vite
     {
         return ! is_null($entries)
-            ? Vite::instance()($entries)
+            ? Vite::instance()->withEntries($entries)
             : Vite::instance();
     }
 }
