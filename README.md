@@ -14,18 +14,18 @@ This plugin works best with the [laravel-vite-plugin](https://github.com/laravel
 
 ## Installation
 
-### Download
-Download and copy this repository to `/site/plugins/laravel-vite`.
+### Composer
+```
+composer require lukaskleinschmidt/kirby-laravel-vite
+```
 
 ### Git Submodule
 ```
 git submodule add https://github.com/lukaskleinschmidt/kirby-laravel-vite.git site/plugins/laravel-vite
 ```
 
-### Composer
-```
-composer require lukaskleinschmidt/kirby-laravel-vite
-```
+### Download
+Download and copy this repository to `/site/plugins/laravel-vite`.
 
 ## Installing The Laravel Vite Plugin
 Documentation for the Laravel Vite plugin can be found on the [Laravel website](https://laravel.com/docs/vite).
