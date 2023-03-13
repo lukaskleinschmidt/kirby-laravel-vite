@@ -17,7 +17,7 @@ This plugin works best with the [laravel-vite-plugin](https://github.com/laravel
 ### Download
 Download and copy this repository to `/site/plugins/laravel-vite`.
 
-### Git submodule
+### Git Submodule
 ```
 git submodule add https://github.com/lukaskleinschmidt/kirby-laravel-vite.git site/plugins/laravel-vite
 ```
