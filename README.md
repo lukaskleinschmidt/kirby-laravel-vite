@@ -12,6 +12,21 @@ This plugin works best with the [laravel-vite-plugin](https://github.com/laravel
 > **Note**
 > Some features are not properly documented yet. Feel free to skim through the [source code](https://github.com/lukaskleinschmidt/kirby-laravel-vite/blob/main/Vite.php) if you think something is missing.
 
+## Installation
+
+### Download
+Download and copy this repository to `/site/plugins/laravel-vite`.
+
+### Git submodule
+```
+git submodule add https://github.com/lukaskleinschmidt/kirby-laravel-vite.git site/plugins/laravel-vite
+```
+
+### Composer
+```
+composer require lukaskleinschmidt/kirby-laravel-vite
+```
+
 ## Installing The Laravel Vite Plugin
 Documentation for the Laravel Vite plugin can be found on the [Laravel website](https://laravel.com/docs/vite).
 
@@ -216,21 +231,6 @@ export default defineConfig({
 
 ## Commercial Usage
 This plugin is free if charge, but please consider a [donation](https://www.paypal.me/lukaskleinschmidt/5EUR) if you use it in a commercial project.
-
-## Installation
-
-### Download
-Download and copy this repository to `/site/plugins/laravel-vite`.
-
-### Git submodule
-```
-git submodule add https://github.com/lukaskleinschmidt/kirby-laravel-vite.git site/plugins/laravel-vite
-```
-
-### Composer
-```
-composer require lukaskleinschmidt/kirby-laravel-vite
-```
 
 ## License
 MIT
