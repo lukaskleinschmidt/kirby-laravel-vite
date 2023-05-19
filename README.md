@@ -9,7 +9,7 @@ This plugin works best with the [laravel-vite-plugin](https://github.com/laravel
 </head>
 ```
 
-> **Note**
+> **Note**  
 > Some features are not properly documented yet. Feel free to skim through the [source code](https://github.com/lukaskleinschmidt/kirby-laravel-vite/blob/main/Vite.php) if you think something is missing.
 
 ## Installation
@@ -85,7 +85,7 @@ Meaning the plugin will only include assets that actually exist at the given sou
 </head>
 ```
 
-> **Note**
+> **Note**  
 > Remember to include the optional assets in vite as well so that they are actually available once bundled.
 > Assets not included in vite **will work in development** mode but **not when bundled**.
 
@@ -99,6 +99,40 @@ export default defineConfig({
   ]),
 });
 ```
+
+## Custom Panel Scripts And Styles
+> **Note** Available since [1.1.0](https://github.com/lukaskleinschmidt/kirby-laravel-vite/releases/tag/1.1.0)
+
+You can use vite for your [`panel.css`](https://getkirby.com/docs/reference/system/options/panel#custom-panel-css) or [`panel.js`](https://getkirby.com/docs/reference/system/options/panel#custom-panel-js) too. Since the plugin requires the Kirby instance to work you need to define the assets in the [ready](https://getkirby.com/docs/reference/system/options/ready) callback to be able to use the `vite()` helper.
+
+```php
+return [
+    'ready' => fn () => [
+        'panel' => [
+            'css' => vite('assets/css/panel.css'),
+            'js'  => vite([
+                'assets/js/feature.js',
+                'assets/js/panel.js',
+            ]),
+        ],
+    ]
+];
+```
+
+> **Note**  
+> Remember to include the optional panel assets in vite as well so that they are actually available once bundled.
+> Assets not included in vite **will work in development** mode but **not when bundled**.
+
+```js
+export default defineConfig({
+  laravel([
+    'assets/css/panel.css',
+    'assets/js/feature.js',
+    'assets/js/panel.js',
+  ]),
+});
+```
+
 
 ## React
 If you build your front-end using the React framework you will also need to call the additional `vite()->reactRefresh()` method alongside your existing `vite()` call.
@@ -163,7 +197,7 @@ return [
 ];
 ```
 
-> **Note**
+> **Note**  
 > The `$chunk` and `$manifest` arguments will be empty while the Vite development server is running.
 
 ## Advanced Customization
@@ -186,11 +220,14 @@ return [
 > Alternatively, you can configure Vite in Kirby's [ready callback](https://getkirby.com/docs/reference/system/options/ready) or directly in the template.
 
 ```php
+use LukasKleinschmidt\Vite;
+
 return [
     'ready' => function () {
-        vite()->useHotFile(kirby()->root('storage') . '/vite.hot')
-              ->useBuildDirectory('bundle')
-              ->useManifest('assets.json');
+        Vite::instance()
+            ->useHotFile(kirby()->root('storage') . '/vite.hot')
+            ->useBuildDirectory('bundle')
+            ->useManifest('assets.json');
     },
 ];
 ```

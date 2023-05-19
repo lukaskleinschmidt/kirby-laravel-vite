@@ -6,7 +6,7 @@ if (! function_exists('vite')) {
     function vite(array|string $entries = null): Vite
     {
         return ! is_null($entries)
-            ? Vite::instance()->withEntries($entries)
-            : Vite::instance();
+            ? Vite::copy()->withEntries((array) $entries)
+            : Vite::copy();
     }
 }

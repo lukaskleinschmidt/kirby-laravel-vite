@@ -232,6 +232,14 @@ class Vite implements Stringable
     }
 
     /**
+     * Returns a copy of the current Vite instance.
+     */
+    public static function copy(): static
+    {
+        return clone static::instance();
+    }
+
+    /**
      * Get the chunk for the given entry point / asset.
      *
      * @throws \Exception
