@@ -9,7 +9,7 @@ use Kirby\Http\Route;
 @include_once __DIR__ . '/helpers.php';
 @include_once __DIR__ . '/Vite.php';
 
-App::plugin('lukaskleinschmidt/kirby-laravel-vite', [
+App::plugin('lukaskleinschmidt/laravel-vite', [
     'options' => $options = [
         'buildDirectory'       => null,
         'hotFile'              => null,
