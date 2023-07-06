@@ -23,8 +23,9 @@ App::plugin('lukaskleinschmidt/laravel-vite', [
     'hooks' => [
         'system.loadPlugins:after' => function () use ($options) {
             foreach ($options as $key => $defaultValue) {
-                $value  = option('lukaskleinschmidt.kirby-laravel-vite.' . $key);
-                $method = 'use' . ucfirst($key);
+                $value   = option('lukaskleinschmidt.kirby-laravel-vite.' . $key);
+                $value ??= option('lukaskleinschmidt.laravel-vite.' . $key);
+                $method  = 'use' . ucfirst($key);
 
                 if (is_null($defaultValue) && is_callable($value)) {
                     $value = $value(kirby());

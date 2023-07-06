@@ -169,7 +169,7 @@ If you need to include additional attributes on your script and style tags, such
 
 ```php
 return [
-    'lukaskleinschmidt.kirby-laravel-vite' => [
+    'lukaskleinschmidt.laravel-vite' => [
         'scriptTagAttributes' => [
             'data-turbo-track' => 'reload', // Specify a value for the attribute...
             'async'            => true,     // Specify an attribute without a value...
@@ -186,7 +186,7 @@ If you need to conditionally add attributes, you may pass a callback that will r
 
 ```php
 return [
-    'lukaskleinschmidt.kirby-laravel-vite' => [
+    'lukaskleinschmidt.laravel-vite' => [
         'scriptTagAttributes' => fn (string $src, string $url, array $chunk, array $manifest) => [
             'data-turbo-track' => $src === 'assets/js/app.js' ? 'reload' : false,
         ],
@@ -207,7 +207,7 @@ To enable additional customization options, you can use the following options:
 
 ```php
 return [
-    'lukaskleinschmidt.kirby-laravel-vite' => [
+    'lukaskleinschmidt.laravel-vite' => [
         'hotFile'        => fn () => kirby()->root('storage') . '/vite.hot',
         'buildDirectory' => 'bundle',
         'manifest'       => 'assets.json',
