@@ -150,7 +150,7 @@ class Vite implements Stringable
             }
 
             foreach ($chunk['imports'] ?? [] as $key) {
-                $chunk = $this->chunk($manifest, $file);
+                $chunk = $this->chunk($manifest, $key);
                 $file  = $chunk['file'];
 
                 if (! isset($preloads[$file])) {
