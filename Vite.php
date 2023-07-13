@@ -13,7 +13,7 @@ class Vite implements Stringable
     /**
      * The Vite instance.
      */
-	protected static $instance;
+	protected static Vite $instance;
 
     /**
      * The Content Security Policy nonce to apply to all generated tags.
