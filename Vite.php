@@ -136,7 +136,7 @@ class Vite implements Stringable
 
             $args = [
                 $key,
-                asset($buildDirectory . '/'. $file = $chunk['file']),
+                url($buildDirectory . '/'. $file = $chunk['file']),
                 $chunk,
                 $manifest,
             ];
@@ -156,7 +156,7 @@ class Vite implements Stringable
                 if (! isset($preloads[$file])) {
                     $preloads[$file] = $this->makePreloadTag(
                         $key,
-                        asset($buildDirectory . '/'. $file),
+                        url($buildDirectory . '/'. $file),
                         $chunk,
                         $manifest,
                     );
@@ -172,7 +172,7 @@ class Vite implements Stringable
 
                     $args = [
                         $key,
-                        asset($buildDirectory . '/'. $file),
+                        url($buildDirectory . '/'. $file),
                         $chunk,
                         $manifest,
                     ];
@@ -197,7 +197,7 @@ class Vite implements Stringable
 
                 $args = [
                     $key,
-                    asset($buildDirectory . '/'. $file),
+                    url($buildDirectory . '/'. $file),
                     $chunk,
                     $manifest,
                 ];
@@ -415,7 +415,7 @@ class Vite implements Stringable
 
         $chunk = $this->chunk($this->manifest($buildDirectory), $asset);
 
-        return asset($buildDirectory . '/' . $chunk['file'])->url();
+        return url($buildDirectory . '/' . $chunk['file']);
     }
 
     /**
