@@ -101,7 +101,7 @@ class Vite implements Stringable
             }
 
             if ($optional || $query !== $value) {
-                if (file_exists($this->app->root('base') . '/' . $query)) {
+                if ($this->exists($query)) {
                     $entries[$key] = $query;
                     $exists[]      = $query;
                 } else {
@@ -149,67 +149,9 @@ class Vite implements Stringable
                 $assets[$file] = $this->makeTag(...$args);
             }
 
-            foreach ($chunk['imports'] ?? [] as $key) {
-                $chunk = $this->chunk($manifest, $key);
-                $file  = $chunk['file'];
+            $this->resolveImports($chunk, $buildDirectory, $manifest, $assets, $preloads);
 
-                if (! isset($preloads[$file])) {
-                    $preloads[$file] = $this->makePreloadTag(
-                        $key,
-                        url($buildDirectory . '/'. $file),
-                        $chunk,
-                        $manifest,
-                    );
-                }
-
-                foreach ($chunk['css'] ?? [] as $key) {
-                    $chunks = array_filter($manifest, fn ($value) =>
-                        $value['file'] === $key
-                    );
-
-                    $chunk = $chunks[$key = array_key_first($chunks)];
-                    $file  = $chunk['file'];
-
-                    $args = [
-                        $key,
-                        url($buildDirectory . '/'. $file),
-                        $chunk,
-                        $manifest,
-                    ];
-
-                    if (! isset($preloads[$file])) {
-                        $preloads[$file] = $this->makePreloadTag(...$args);
-                    }
-
-                    if (! isset($assets[$file])) {
-                        $assets[$file] = $this->makeTag(...$args);
-                    }
-                }
-            }
-
-            foreach ($chunk['css'] ?? [] as $key) {
-                $chunks = array_filter($manifest, fn ($value) =>
-                    $value['file'] === $key
-                );
-
-                $chunk = $chunks[$key = array_key_first($chunks)];
-                $file  = $chunk['file'];
-
-                $args = [
-                    $key,
-                    url($buildDirectory . '/'. $file),
-                    $chunk,
-                    $manifest,
-                ];
-
-                if (! isset($preloads[$file])) {
-                    $preloads[$file] = $this->makePreloadTag(...$args);
-                }
-
-                if (! isset($assets[$file])) {
-                    $assets[$file] = $this->makeTag(...$args);
-                }
-            }
+            $this->resolveCss($chunk, $buildDirectory, $manifest, $assets, $preloads);
         }
 
         uksort($preloads, fn ($a, $b) =>
@@ -251,6 +193,28 @@ class Vite implements Stringable
         }
 
         return $manifest[$file];
+    }
+
+    /**
+     * Check if a source file exists.
+     */
+    protected function exists(string $file): bool
+    {
+        $base  = $this->app->root('vite:base') ?? $this->app->root('base');
+        $index = $this->app->root('index');
+
+        $paths = [
+            $base ?? $index,
+            dirname($index),
+        ];
+
+        foreach ($paths as $path) {
+            if (file_exists(rtrim($path, '/') . '/' . $file)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -484,6 +448,59 @@ class Vite implements Stringable
     public function nonce(): ?string
     {
         return $this->nonce;
+    }
+
+    /**
+     * Resolve related css files.
+     */
+    public function resolveCss(array $chunk, string $buildDirectory, array $manifest, array &$assets, array &$preloads): void
+    {
+        foreach ($chunk['css'] ?? [] as $key) {
+            $chunks = array_filter($manifest, fn ($value) =>
+                $value['file'] === $key
+            );
+
+            $key   = array_key_first($chunks);
+            $chunk = current($chunks);
+            $file  = $chunk['file'];
+
+            $args = [
+                $key,
+                url($buildDirectory . '/'. $file),
+                $chunk,
+                $manifest,
+            ];
+
+            if (! isset($assets[$file])) {
+                $assets[$file] = $this->makeTag(...$args);
+            }
+
+            if (! isset($preloads[$file])) {
+                $preloads[$file] = $this->makePreloadTag(...$args);
+            }
+        }
+    }
+
+    /**
+     * Resolve related imports.
+     */
+    public function resolveImports(array $chunk, string $buildDirectory, array $manifest, array &$assets, array &$preloads): void
+    {
+        foreach ($chunk['imports'] ?? [] as $key) {
+            $chunk = $this->chunk($manifest, $key);
+            $file  = $chunk['file'];
+
+            if (! isset($preloads[$file])) {
+                $preloads[$file] = $this->makePreloadTag(
+                    $key,
+                    url($buildDirectory . '/'. $file),
+                    $chunk,
+                    $manifest,
+                );
+            }
+
+            $this->resolveCss($chunk, $buildDirectory, $manifest, $assets, $preloads);
+        }
     }
 
     /**
