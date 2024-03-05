@@ -459,6 +459,10 @@ class Vite implements Stringable
             $chunks = array_filter($manifest, fn ($value) =>
                 $value['file'] === $key
             );
+            
+            if (empty($chunks)) {
+                $chunks[$key] = ['file' => $key];
+            }
 
             $key   = array_key_first($chunks);
             $chunk = current($chunks);
