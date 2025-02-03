@@ -13,6 +13,9 @@ This Kirby plugin allows you to use the [laravel-vite plugin](https://github.com
 
 ## Installation
 
+> [!TIP]
+> If you want to see all necessary changes to use Vite to process JS/CSS assets within a fresh Kirby starterkit project, you can look at [this example repository](https://github.com/lukaskleinschmidt/vite-starterkit).
+
 As with most Kirby plugins, you can use one of three different methods of installation:
 
 ### Composer
