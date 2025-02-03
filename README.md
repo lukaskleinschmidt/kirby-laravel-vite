@@ -53,7 +53,7 @@ It's also a good idea to add the commands to run Vite to your `package.json` (if
   }
 ```
 
-Now you need can tell Vite about the newly installed plugin by creating a new `vite.config.js` with the following content:
+Now you can tell Vite about the newly installed plugin by creating a new `vite.config.js` with the following content:
 
 ```js
 import { defineConfig } from 'vite';
