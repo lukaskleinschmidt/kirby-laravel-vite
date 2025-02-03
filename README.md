@@ -13,7 +13,7 @@ This Kirby plugin allows you to use the [laravel-vite plugin](https://github.com
 
 ## Installation
 
-As with most Kirby plugins, you can use three different methods of installation:
+As with most Kirby plugins, you can use one of three different methods of installation:
 
 ### Composer
 ```
