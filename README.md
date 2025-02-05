@@ -1,6 +1,5 @@
 # Kirby Laravel Vite
-After installation, you can use the `vite()` helper to include Vite assets in your Kirby project.
-This plugin works best with the [laravel-vite-plugin](https://github.com/laravel/vite-plugin).
+This Kirby plugin allows you to use the [laravel-vite plugin](https://github.com/laravel/vite-plugin) with Kirby. After installation, you can use the `vite()` helper to include assets that have been processed by Vite in your Kirby project.
 
 ```php
 <!doctype html>
@@ -13,6 +12,11 @@ This plugin works best with the [laravel-vite-plugin](https://github.com/laravel
 > Some features are not properly documented yet. Feel free to skim through the [source code](https://github.com/lukaskleinschmidt/kirby-laravel-vite/blob/main/Vite.php) if you think something is missing.
 
 ## Installation
+
+> [!TIP]
+> If you want to see all necessary changes to use Vite to process JS/CSS assets within a fresh Kirby starterkit project, you can look at [this example repository](https://github.com/lukaskleinschmidt/vite-starterkit).
+
+As with most Kirby plugins, you can use one of three different methods of installation:
 
 ### Composer
 ```
@@ -30,9 +34,29 @@ Download and copy this repository to `/site/plugins/laravel-vite`.
 ## Installing The Laravel Vite Plugin
 Documentation for the Laravel Vite plugin can be found on the [Laravel website](https://laravel.com/docs/vite).
 
+If you're starting a new frontend project, you need to pick a base folder where your unprocessed frontend code is located. Typically this is also the main folder of your Kirby project. So inside your main project folder (same folder where you can find your `composer.json`), run
+
 ```bash
-npm install --save-dev laravel-vite-plugin
+npm run init
 ```
+
+to initialize a new npm project. Now you can run
+
+```bash
+npm install --save-dev vite laravel-vite-plugin
+```
+to install the Vite and the Laravel Vite plugin.
+
+It's also a good idea to add the commands to run Vite to your `package.json` (if they don't exist already):
+
+```json
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite"
+  }
+```
+
+Now you can tell Vite about the newly installed plugin by creating a new `vite.config.js` with the following content:
 
 ```js
 import { defineConfig } from 'vite';
