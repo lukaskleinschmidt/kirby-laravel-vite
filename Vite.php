@@ -383,6 +383,32 @@ class Vite implements Stringable
     }
 
     /**
+     * Get URL(s) of CSS file(s) associated with an asset.
+     *
+     * @param string $asset The asset to get CSS for
+     * @param string|null $buildDirectory Optional build directory
+     * @return array Array of CSS file URLs
+     */
+    public function assetCss(string $asset, string $buildDirectory = null): array
+    {
+        $buildDirectory ??= $this->buildDirectory;
+
+        if ($this->isRunningHot()) {
+            return [];
+        }
+
+        $chunk = $this->chunk($this->manifest($buildDirectory), $asset);
+        $cssFiles = [];
+
+        // Get direct CSS files
+        foreach ($chunk['css'] ?? [] as $cssFile) {
+            $cssFiles[] = url($buildDirectory . '/' . $cssFile);
+        }
+
+        return $cssFiles;
+    }
+
+    /**
      * Generate React refresh runtime script.
      */
     public function reactRefresh(): string
