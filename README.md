@@ -188,6 +188,15 @@ These assets will now be processed by Vite when running `npm run build`. You can
 <img src="<?= vite()->asset('assets/images/logo.png') ?>">
 ```
 
+## Associated CSS Files
+In some cases, you may want to include a Javascript file conditionally using the `vite()->asset()` method. Associated CSS files will not be included automatically. You can use the `vite()->assetCss()` method, which will return an array of URLs for the CSS files associated with a given asset:
+
+```php
+<?php foreach (vite()->assetCss('assets/js/my-component.js') as $cssFile): ?>
+  <link rel="stylesheet" href="<?= $cssFile ?>">
+<?php endforeach ?>
+```
+
 ## Arbitrary Attributes
 If you need to include additional attributes on your script and style tags, such as the `data-turbo-track` attribute, you may specify them via the plugin options.
 
