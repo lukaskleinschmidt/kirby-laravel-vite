@@ -2,6 +2,7 @@
 	"name": "lukaskleinschmidt/kirby-laravel-vite",
 	"description": "Kirby Laravel Vite",
 	"license": "MIT",
+	"homepage": "https://github.com/lukaskleinschmidt/kirby-laravel-vite#readme",
 	"type": "kirby-plugin",
 	"authors": [
 		{
@@ -10,7 +11,7 @@
 		}
 	],
 	"require": {
-        "php": "^8.2",
+				"php": "^8.2",
 		"getkirby/composer-installer": "^1.2"
 	},
 	"config": {
@@ -18,7 +19,7 @@
 			"getkirby/composer-installer": true
 		}
 	},
-    "extra": {
-        "installer-name": "laravel-vite"
-    }
+		"extra": {
+				"installer-name": "laravel-vite"
+		}
 }
