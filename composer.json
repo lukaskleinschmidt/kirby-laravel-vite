@@ -1,25 +1,25 @@
 {
-	"name": "lukaskleinschmidt/kirby-laravel-vite",
-	"description": "Kirby Laravel Vite",
-	"license": "MIT",
-	"homepage": "https://github.com/lukaskleinschmidt/kirby-laravel-vite#readme",
-	"type": "kirby-plugin",
-	"authors": [
-		{
-			"name": "Lukas Kleinschmidt",
-			"email": "contact@kleinschmidt.mozmail.com"
-		}
-	],
-	"require": {
-				"php": "^8.2",
-		"getkirby/composer-installer": "^1.2"
-	},
-	"config": {
-		"allow-plugins": {
-			"getkirby/composer-installer": true
-		}
-	},
-		"extra": {
-				"installer-name": "laravel-vite"
-		}
+  "name": "lukaskleinschmidt/kirby-laravel-vite",
+  "description": "Kirby Laravel Vite",
+  "license": "MIT",
+  "homepage": "https://github.com/lukaskleinschmidt/kirby-laravel-vite#readme",
+  "type": "kirby-plugin",
+  "authors": [
+    {
+      "name": "Lukas Kleinschmidt",
+      "email": "contact@kleinschmidt.mozmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "getkirby/composer-installer": "^1.2"
+  },
+  "config": {
+    "allow-plugins": {
+      "getkirby/composer-installer": true
+    }
+  },
+  "extra": {
+    "installer-name": "laravel-vite"
+  }
 }
