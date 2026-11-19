@@ -84,10 +84,11 @@ class Vite implements Stringable
      *
      * @throws \Exception
      */
-    public function __invoke(array|string $entries, string $buildDirectory = null): ?string
+    public function __invoke(array|string $entries, ?string $buildDirectory = null): ?string
     {
-        $entries = (array) $entries;
-        $exists  = [];
+        $manifest = $this->manifest($buildDirectory ??= $this->buildDirectory);
+        $entries  = (array) $entries;
+        $exists   = [];
 
         foreach ($entries as $key => $value) {
             $query = Str::template($value, [
@@ -101,7 +102,7 @@ class Vite implements Stringable
             }
 
             if ($optional || $query !== $value) {
-                if ($this->exists($query)) {
+                if ($this->exists($query) || array_key_exists($query, $manifest)) {
                     $entries[$key] = $query;
                     $exists[]      = $query;
                 } else {
@@ -117,8 +118,6 @@ class Vite implements Stringable
                 $this->makeTag($value, $this->hotAsset($value))
             , $entries));
         }
-
-        $manifest = $this->manifest($buildDirectory ??= $this->buildDirectory);
 
         $preloads = [];
         $assets   = [];
@@ -168,7 +167,7 @@ class Vite implements Stringable
     /**
      * Create a new Vite instance.
      */
-    public static function instance(App $app = null): static
+    public static function instance(?App $app = null): static
     {
         return static::$instance ??= new static($app ?? App::instance());
     }
@@ -369,7 +368,7 @@ class Vite implements Stringable
     /**
      * Get the URL for an asset.
      */
-    public function asset(string $asset, string $buildDirectory = null): string
+    public function asset(string $asset, ?string $buildDirectory = null): string
     {
         $buildDirectory ??= $this->buildDirectory;
 
@@ -389,7 +388,7 @@ class Vite implements Stringable
      * @param string|null $buildDirectory Optional build directory
      * @return array Array of CSS file URLs
      */
-    public function assetCss(string $asset, string $buildDirectory = null): array
+    public function assetCss(string $asset, ?string $buildDirectory = null): array
     {
         $buildDirectory ??= $this->buildDirectory;
 
@@ -485,7 +484,7 @@ class Vite implements Stringable
             $chunks = array_filter($manifest, fn ($value) =>
                 $value['file'] === $key
             );
-            
+
             if (empty($chunks)) {
                 $chunks[$key] = ['file' => $key];
             }
@@ -536,7 +535,7 @@ class Vite implements Stringable
     /**
      * Generate or set a Content Security Policy nonce to apply to all generated tags.
      */
-    public function useNonce(string $nonce = null): static
+    public function useNonce(?string $nonce = null): static
     {
         $this->nonce = $nonce ?? Str::random(40);
 
