@@ -46,9 +46,7 @@ App::plugin('lukaskleinschmidt/laravel-vite', [
             $style  = option('panel.css');
             $script = option('panel.js');
 
-            $body = $response instanceof \Kirby\Panel\Response\ViewDocumentResponse
-                ? $response->send()
-                : $response->body();
+            $body = $response->send();
 
             if ($style instanceof Vite) {
                 $body = preg_replace_callback('/<link.*plugins\/index\.css.*>/', fn ($matches) =>
@@ -62,13 +60,13 @@ App::plugin('lukaskleinschmidt/laravel-vite', [
                 , $body);
             }
 
-            return new Response(
-                $body,
-                $response->type(),
-                $response->code(),
-                $response->headers(),
-                $response->charset()
-            );
+            return new class ($body) extends Response
+            {
+                public function send(): string
+                {
+                    return $this->body();
+                }
+            };
         }
     ],
 ]);
