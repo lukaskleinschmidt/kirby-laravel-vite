@@ -127,11 +127,11 @@ export default defineConfig({
 ## Custom Panel Scripts And Styles
 > **Note** Available since [1.1.0](https://github.com/lukaskleinschmidt/kirby-laravel-vite/releases/tag/1.1.0)
 
-You can use vite for your [`panel.css`](https://getkirby.com/docs/reference/system/options/panel#custom-panel-css) or [`panel.js`](https://getkirby.com/docs/reference/system/options/panel#custom-panel-js) too. Since the plugin requires the Kirby instance to work you need to define the assets in the [ready](https://getkirby.com/docs/reference/system/options/ready) callback to be able to use the `vite()` helper.
+You can use vite for your [`panel.css`](https://getkirby.com/docs/reference/system/options/panel#custom-panel-css) or [`panel.js`](https://getkirby.com/docs/reference/system/options/panel#custom-panel-js) too. Since the plugin requires the Kirby instance to work you need to define the assets either in the [ready](https://getkirby.com/docs/reference/system/options/ready) callback or since `2.2.3` in the `panel.vite` callback option.
 
 ```php
 return [
-    'ready' => fn () => [
+    'ready' => static fn () => [
         'panel' => [
             'css' => vite('assets/css/panel.css'),
             'js'  => vite([
@@ -139,7 +139,16 @@ return [
                 'assets/js/panel.js',
             ]),
         ],
-    ]
+    ],
+
+    // Alternative
+    'panel' => 
+        'vite' => static fn () => vite([
+            'assets/css/panel.css',
+            'assets/js/feature.js',
+            'assets/js/panel.js',
+        ])
+    ],
 ];
 ```
 

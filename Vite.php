@@ -86,9 +86,13 @@ class Vite implements Stringable
      */
     public function __invoke(array|string $entries, ?string $buildDirectory = null): ?string
     {
-        $manifest = $this->manifest($buildDirectory ??= $this->buildDirectory);
         $entries  = (array) $entries;
+        $manifest = [];
         $exists   = [];
+
+        if (! $this->isRunningHot()) {
+            $manifest = $this->manifest($buildDirectory ??= $this->buildDirectory);
+        }
 
         foreach ($entries as $key => $value) {
             $query = Str::template($value, [
@@ -178,6 +182,32 @@ class Vite implements Stringable
     public static function copy(): static
     {
         return clone static::instance();
+    }
+
+    /**
+     * Returns the concatenated vite entries for the panel.
+     */
+    public static function panel(): ?string
+    {
+        $options = [
+            option('panel.vite'),
+            option('panel.css'),
+            option('panel.js'),
+        ];
+
+        $result = [];
+
+        foreach ($options as $option) {
+            if (is_callable($option)) {
+                $option = $option();
+            }
+
+            if ($option instanceof Vite) {
+                $result[] = $option;
+            }
+        }
+
+        return $result ? join('', $result) : null;
     }
 
     /**

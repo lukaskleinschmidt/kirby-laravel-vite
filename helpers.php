@@ -3,7 +3,7 @@
 use LukasKleinschmidt\Vite;
 
 if (! function_exists('vite')) {
-    function vite(array|string $entries = null): Vite
+    function vite(array|string|null $entries = null): Vite
     {
         return ! is_null($entries)
             ? Vite::copy()->withEntries((array) $entries)

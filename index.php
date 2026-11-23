@@ -43,30 +43,21 @@ App::plugin('lukaskleinschmidt/laravel-vite', [
                 return $response;
             }
 
-            $style  = option('panel.css');
-            $script = option('panel.js');
+            $vite = Vite::panel();
 
-            $body = $response->send();
+            if ($vite && $body = $response->send()) {
+                $body = str_replace('</head>', $vite . '</head>', $body);
 
-            if ($style instanceof Vite) {
-                $body = preg_replace_callback('/<link.*plugins\/index\.css.*>/', fn ($matches) =>
-                    $matches[0] . $style
-                , $body);
-            }
-
-            if ($script instanceof Vite) {
-                $body = preg_replace_callback('/<script.*plugins\/index\.js.*script>/', fn ($matches) =>
-                    $matches[0] . $script
-                , $body);
-            }
-
-            return new class ($body) extends Response
-            {
-                public function send(): string
+                return new class ($body) extends Response
                 {
-                    return $this->body();
-                }
-            };
+                    public function send(): string
+                    {
+                        return $this->body();
+                    }
+                };
+            }
+
+            return $response;
         }
     ],
 ]);
