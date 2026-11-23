@@ -86,7 +86,11 @@ class Vite implements Stringable
      */
     public function __invoke(array|string $entries, ?string $buildDirectory = null): ?string
     {
-        $manifest = $this->manifest($buildDirectory ??= $this->buildDirectory);
+        $buildDirectory ??= $this->buildDirectory;
+
+        // The dev server serves entries without a build, so only
+        // read the manifest when it is not running.
+        $manifest = $this->isRunningHot() ? [] : $this->manifest($buildDirectory);
         $entries  = (array) $entries;
         $exists   = [];
 

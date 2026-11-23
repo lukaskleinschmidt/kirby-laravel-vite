@@ -48,16 +48,36 @@ App::plugin('lukaskleinschmidt/laravel-vite', [
 
             $body = $response->send();
 
+            $insert = function (string $body, string $tags, array $anchors, string $fallback): string {
+                foreach ($anchors as $anchor) {
+                    $result = preg_replace_callback($anchor, fn ($matches) =>
+                        $matches[0] . $tags
+                    , $body, 1, $count);
+
+                    if ($count > 0) {
+                        return $result;
+                    }
+                }
+
+                return str_replace($fallback, $tags . $fallback, $body);
+            };
+
             if ($style instanceof Vite) {
-                $body = preg_replace_callback('/<link.*plugins\/index\.css.*>/', fn ($matches) =>
-                    $matches[0] . $style
-                , $body);
+                // Kirby 5 bundles plugin styles in plugins/index.css. Kirby 6 links
+                // each plugin's styles separately, so add ours after all of them.
+                $body = $insert($body, (string) $style, [
+                    '/<link.*plugins\/index\.css.*>/',
+                ], '</head>');
             }
 
             if ($script instanceof Vite) {
-                $body = preg_replace_callback('/<script.*plugins\/index\.js.*script>/', fn ($matches) =>
-                    $matches[0] . $script
-                , $body);
+                // Load scripts where Kirby loads a custom panel.js: after the
+                // plugins/index.js bundle in Kirby 5 and after the plugin registry
+                // in Kirby 6, both before the Panel's own index module.
+                $body = $insert($body, (string) $script, [
+                    '/<script.*plugins\/index\.js.*script>/',
+                    '/<script[^>]*\/js\/plugins\.js[^>]*><\/script>/',
+                ], '</body>');
             }
 
             return new class ($body) extends Response
