@@ -43,21 +43,19 @@ App::plugin('lukaskleinschmidt/laravel-vite', [
                 return $response;
             }
 
-            $vite = Vite::panel();
+            $body = $response->send();
 
-            if ($vite && $body = $response->send()) {
+            if ($body && $vite = Vite::panel()) {
                 $body = str_replace('</head>', $vite . '</head>', $body);
-
-                return new class ($body) extends Response
-                {
-                    public function send(): string
-                    {
-                        return $this->body();
-                    }
-                };
             }
 
-            return $response;
+            return new class ($body) extends Response
+            {
+                public function send(): string
+                {
+                    return $this->body();
+                }
+            };
         }
     ],
 ]);
