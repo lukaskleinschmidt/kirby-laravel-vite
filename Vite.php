@@ -2,6 +2,7 @@
 
 namespace LukasKleinschmidt;
 
+use Closure;
 use Exception;
 use Kirby\Cms\App;
 use Kirby\Toolkit\Html;
@@ -198,7 +199,7 @@ class Vite implements Stringable
         $result = [];
 
         foreach ($options as $option) {
-            if (is_callable($option)) {
+            if ($option instanceof Closure) {
                 $option = $option();
             }
 

@@ -142,7 +142,7 @@ return [
     ],
 
     // Alternative
-    'panel' => 
+    'panel' => [
         'vite' => static fn () => vite([
             'assets/css/panel.css',
             'assets/js/feature.js',
